@@ -12,7 +12,7 @@ module.exports = {
     
             if (!queue || !queue.isPlaying()) return await interaction.reply("No song is currently playing!");
                         
-            queue.node.skip();
+            await queue.node.skip();
                 
             await interaction.reply({ 
                 embeds: [new EmbedBuilder()

@@ -7,10 +7,6 @@ module.exports = {
         .setDescription('Disconnects the bot from the voice channel.'),
     run: async ({client, interaction}) => {
         try{
-            const queue = interaction.client.player.nodes.get(interaction.guild.id)
-
-            if (!queue || !queue.isPlaying()) return await interaction.reply("No song is currently playing!");
-
             // Delete queue
             interaction.client.player.nodes.delete(interaction.guild.id);
             await interaction.reply("Left the voice channel!")
