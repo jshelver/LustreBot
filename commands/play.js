@@ -50,7 +50,27 @@ module.exports = {
             }
             // Youtube song/playlist
             else if (isYoutubeUrl(url)) {
-                // TO-DO: Play youtube songs/playlists
+                try {
+                    // Play track
+                    const { track } = await client.player.play(channel, query, {
+                        nodeOptions: {
+                            metadata: interaction, // we can access this metadata object using queue.metadata later on
+                            searchEngine: isYoutubePlaylist(url) ? QueryType.YOUTUBE_PLAYLIST : QueryType.YOUTUBE_VIDEO
+                        }
+                    });
+    
+                    // Create embed with song information
+                    const embed = new EmbedBuilder().setDescription(`Added **[${track.title}](${track.url})** - ${track.author} to the queue.`)
+                        .setThumbnail(track.thumbnail)
+                        .addFields({ name: 'Duration', value: `${track.duration}`, inline: true });
+        
+                    // Send embed
+                    return interaction.editReply({ embeds: [embed] });
+                } catch (error) {
+                    // Let's return error if something failed
+                    console.log(error);
+                    return interaction.editReply(`Something went wrong: ${error.message}`);
+                }
             }
             // Invalid url
             else {
@@ -59,14 +79,14 @@ module.exports = {
         }
         
 
-        // Spotify search (TO-DO: Turn into youtube search)
+        // Youtube search
         try {
             const query = interaction.options.getString('searchterms', true);
             // Play track
             const { track } = await client.player.play(channel, query, {
                 nodeOptions: {
                     metadata: interaction, // we can access this metadata object using queue.metadata later on
-                    searchEngine: QueryType.SPOTIFY_SEARCH
+                    searchEngine: QueryType.YOUTUBE_SEARCH
                 }
             });
 
@@ -82,5 +102,4 @@ module.exports = {
             return interaction.editReply(`Something went wrong: ${e.message}`);
         }
     }
-
 }

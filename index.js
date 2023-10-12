@@ -3,7 +3,7 @@ require("dotenv").config()
 const { Client, IntentsBitField } = require("discord.js")
 const { CommandKit } = require("commandkit")
 const { Player } = require("discord-player")
-const { SpotifyExtractor, SoundCloudExtractor } = require('@discord-player/extractor');
+const { SpotifyExtractor, YouTubeExtractor } = require('@discord-player/extractor');
 const path = require("path");
 
 async function main() {
@@ -23,7 +23,7 @@ async function main() {
     client.player = new Player(client);
 
     await client.player.extractors.register(SpotifyExtractor, {});
-    await client.player.extractors.register(SoundCloudExtractor, {});
+    await client.player.extractors.register(YouTubeExtractor, {});
 
     client.login(process.env.TOKEN);
 }
