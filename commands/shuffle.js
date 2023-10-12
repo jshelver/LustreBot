@@ -12,7 +12,7 @@ module.exports = {
         try {
             const queue = interaction.client.player.nodes.get(interaction.guild.id);
 
-            if (!queue) return await interaction.editReply("The queue is empty!");
+            if (!queue || queue.tracks.toArray().length < 1) return await interaction.editReply("The queue is empty!");
 
             queue.tracks.shuffle();
             const tracksQueue = queue.tracks.toArray();

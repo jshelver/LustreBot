@@ -31,14 +31,17 @@ module.exports = {
                     const { track } = await client.player.play(channel, query, {
                         nodeOptions: {
                             metadata: interaction, // we can access this metadata object using queue.metadata later on
-                            searchEngine: isSpotifyPlaylist(url) ? QueryType.SPOTIFY_PLAYLIST : QueryType.SPOTIFY_SONG
-                        }
+                        },
+                        searchEngine: isSpotifyPlaylist(url) ? QueryType.SPOTIFY_PLAYLIST : QueryType.SPOTIFY_SONG
                     });
     
-                    // Create embed with song information
-                    const embed = new EmbedBuilder().setDescription(`Added **[${track.title}](${track.url})** - ${track.author} to the queue.`)
-                        .setThumbnail(track.thumbnail)
-                        .addFields({ name: 'Duration', value: `${track.duration}`, inline: true });
+                    // Create embed with playlist/song information
+                    const embed = isSpotifyPlaylist(url) 
+                        ? new EmbedBuilder().setDescription(`Added **[${track.playlist.title}](${track.playlist.url})** - ${track.playlist.author.name} to the queue from Spotify.`)
+                            .setThumbnail(track.playlist.thumbnail)
+                        : new EmbedBuilder().setDescription(`Added **[${track.title}](${track.url})** - ${track.author} to the queue from Spotify.`)
+                            .setThumbnail(track.thumbnail)
+                            .addFields({ name: 'Duration', value: `${track.duration}`, inline: true });
         
                     // Send embed
                     return interaction.editReply({ embeds: [embed] });
@@ -55,14 +58,17 @@ module.exports = {
                     const { track } = await client.player.play(channel, query, {
                         nodeOptions: {
                             metadata: interaction, // we can access this metadata object using queue.metadata later on
-                            searchEngine: isYoutubePlaylist(url) ? QueryType.YOUTUBE_PLAYLIST : QueryType.YOUTUBE_VIDEO
-                        }
+                        },
+                        searchEngine: isYoutubePlaylist(url) ? QueryType.YOUTUBE_PLAYLIST : QueryType.YOUTUBE_VIDEO
                     });
-    
-                    // Create embed with song information
-                    const embed = new EmbedBuilder().setDescription(`Added **[${track.title}](${track.url})** - ${track.author} to the queue.`)
-                        .setThumbnail(track.thumbnail)
-                        .addFields({ name: 'Duration', value: `${track.duration}`, inline: true });
+
+                    // Create embed with playlist/song information
+                    const embed = isYoutubePlaylist(url) 
+                        ? new EmbedBuilder().setDescription(`Added **[${track.playlist.title}](${track.playlist.url})** - ${track.playlist.author.name} to the queue from YouTube.`)
+                            .setThumbnail(track.playlist.thumbnail)
+                        : new EmbedBuilder().setDescription(`Added **[${track.title}](${track.url})** - ${track.author} to the queue from YouTube.`)
+                            .setThumbnail(track.thumbnail)
+                            .addFields({ name: 'Duration', value: `${track.duration}`, inline: true });
         
                     // Send embed
                     return interaction.editReply({ embeds: [embed] });
@@ -74,7 +80,7 @@ module.exports = {
             }
             // Invalid url
             else {
-                return interaction.editReply(`Invalid URL. This bot can only play songs from youtube and spotify.`);
+                return interaction.editReply(`Invalid URL. This bot can only play songs from YouTube and Spotify.`);
             }
         }
         
@@ -86,12 +92,12 @@ module.exports = {
             const { track } = await client.player.play(channel, query, {
                 nodeOptions: {
                     metadata: interaction, // we can access this metadata object using queue.metadata later on
-                    searchEngine: QueryType.YOUTUBE_SEARCH
-                }
+                },
+                searchEngine: QueryType.YOUTUBE_SEARCH
             });
 
             // Create embed with song information
-            const embed = new EmbedBuilder().setDescription(`Added **[${track.title}](${track.url})** - ${track.author} to the queue.`)
+            const embed = new EmbedBuilder().setDescription(`Added **[${track.title}](${track.url})** - ${track.author} to the queue from YouTube.`)
                 .setThumbnail(track.thumbnail)
                 .addFields({ name: 'Duration', value: `${track.duration}`, inline: true });
 
@@ -99,7 +105,7 @@ module.exports = {
             return interaction.editReply({ embeds: [embed] });
         } catch (error) {
             // Let's return error if something failed
-            return interaction.editReply(`Something went wrong: ${e.message}`);
+            return interaction.editReply(`Something went wrong: ${error.message}`);
         }
     }
 }
