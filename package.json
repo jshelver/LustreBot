@@ -10,22 +10,23 @@
   "author": "jshelver",
   "license": "ISC",
   "dependencies": {
-    "@babel/runtime": "^7.23.2",
-    "@discord-player/extractor": "^4.4.1",
-    "@discordjs/builders": "^1.6.4",
-    "@ffmpeg-installer/ffmpeg": "^1.1.0",
-    "commandkit": "^0.0.9",
-    "discord-player": "^6.6.2",
-    "discord.js": "^14.12.1",
-    "dotenv": "^16.3.1",
+    "@babel/runtime": "^7.24.8",
+    "@discord-player/extractor": "^4.4.7",
+    "@discordjs/builders": "^1.8.2",
+    "commandkit": "^0.1.10",
+    "discord-player": "^6.6.10",
+    "discord-player-youtubei": "^1.1.5",
+    "discord.js": "^14.15.3",
+    "dotenv": "^16.4.5",
+    "mediaplex": "^0.0.9",
     "ytdl-core": "^4.11.5"
   },
   "devDependencies": {
-    "@babel/cli": "^7.23.0",
-    "@babel/core": "^7.23.2",
-    "@babel/node": "^7.22.19",
-    "@babel/plugin-transform-runtime": "^7.23.2",
-    "@babel/preset-env": "^7.23.2",
-    "nodemon": "^3.0.1"
+    "@babel/cli": "^7.24.8",
+    "@babel/core": "^7.24.8",
+    "@babel/node": "^7.24.8",
+    "@babel/plugin-transform-runtime": "^7.24.7",
+    "@babel/preset-env": "^7.24.8",
+    "nodemon": "^3.1.4"
   }
 }
